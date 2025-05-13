@@ -1,3 +1,56 @@
+-- 1. Store channels by name for later lookup
+local channelsByName = {}
+
+-- 2. Create and store channels
+local serv = win:Server("Preview", "")
+
+local btns = serv:Channel("Search script")
+btns:Textbox( 
+    "Search script", 
+    "Type here!",
+    true,
+    function(t)
+        print(t)
+    end
+)
+
+local testChannel = serv:Channel("Test")
+channelsByName["test"] = testChannel
+
+-- Adding buttons to the "Test" channel
+testChannel:Button("Test Button 1", function()
+    print("Test Button 1 clicked")
+end)
+
+testChannel:Button("Test Button 2", function()
+    print("Test Button 2 clicked")
+end)
+
+-- 3. Define the SelectChannel function
+function SelectChannel(name)
+    -- Normalize the name to lowercase to ensure case-insensitive search
+    local channelName = name:lower()
+
+    -- Find the channel in the channelsByName table
+    local channel = channelsByName[channelName]
+
+    if channel then
+        -- Simulate switching to the channel (focus or render it)
+        print("Switched to channel:", name)
+
+        -- Example: You would focus the channel or make it visible (adapt based on your library)
+        -- channel:Focus() -- Replace with your actual method to focus or show the channel
+    else
+        print("No matching channel found:", name)
+    end
+end
+
+-- Example Usage:
+-- Switch to the 'Test' channel
+SelectChannel("Test")  -- This will focus on the "Test" channel
+
+
+
 local DiscordLib = {}
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
